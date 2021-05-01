@@ -1,35 +1,30 @@
 Create table election_data (
 	index int primary key,
-	year INT   NOT NULL,
-    state VARCHAR   NOT NULL,
-    state_po VARCHAR   NOT NULL,
-    county VARCHAR   NOT NULL,
-	FIPS VARCHAR   NOT NULL,
-    office VARCHAR   NOT NULL,
-    candidate VARCHAR   NOT NULL,
-	party VARCHAR,
-    candidate_votes INT   NOT NULL,
-    total_votes_county INT NOT NULL,
-	version INT NOT NULL
+	"Year" INT   NOT NULL,
+    "State" VARCHAR   NOT NULL,
+    State_Abbr VARCHAR   NOT NULL,
+    County VARCHAR   NOT NULL,
+    Office VARCHAR   NOT NULL,
+    Candidate VARCHAR   NOT NULL,
+	Party VARCHAR,
+    Candidate_Votes INT   NOT NULL,
+    Total_Votes_byCounty INT NOT NULL
 );
 
 select * from election_data;
-
 drop table election_data;
 
 Create table election_data (
 	index int primary key,
-	year INT   NOT NULL,
-    state VARCHAR   NOT NULL,
-    state_po VARCHAR   NOT NULL,
-    county VARCHAR   NOT NULL,
-	FIPS VARCHAR   NOT NULL,
-    office VARCHAR   NOT NULL,
-    candidate VARCHAR   NOT NULL,
-	party VARCHAR,
-    candidate_votes INT   NOT NULL,
-    total_votes_county INT NOT NULL,
-	version INT NOT NULL
+	"Year" INT   NOT NULL,
+    "State" VARCHAR   NOT NULL,
+    "State_Abbr" VARCHAR   NOT NULL,
+    "County" VARCHAR   NOT NULL,
+    "Office" VARCHAR   NOT NULL,
+    "Candidate" VARCHAR   NOT NULL,
+	"Party" VARCHAR NOT NULL,
+    "Candidate_Votes" INT NOT NULL,
+    "Total_Votes_byCounty" INT NOT NULL
 );
 
 select * from election_data;
