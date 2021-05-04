@@ -40,7 +40,7 @@ def IndexRoute():
 
 
 @app.route("/electionresults")
-def QueryFighterAircraft():
+def TotalResults():
     ''' Query the database for fighter aircraft and return the results as a JSON. '''
 
     # Open a session, run the query, and then close the session again
@@ -62,7 +62,51 @@ def QueryFighterAircraft():
     # Return the jsonified result. 
     return jsonify(all_results)
 
+@app.route("/electionresults/<state>")
+def StateResults(state):
+    ''' Query the database for fighter aircraft and return the results as a JSON. '''
 
+    # Open a session, run the query, and then close the session again
+    session = Session(engine)
+    results = session.query(table.Year, table.State, table.Party, table.County, table.Candidate_Votes).filter(table.State==state)
+    session.close()
+
+    # Create a list of dictionaries, with each dictionary containing one row from the query. 
+    all_results = []
+    for year, state, party, county, candidate_votes in results:
+        dict = {}
+        dict["year"] = year
+        dict["state"] = state
+        dict["party"] = party
+        dict["county"] = county
+        dict["votes"] = candidate_votes
+        all_results.append(dict)
+
+    # Return the jsonified result. 
+    return jsonify(all_results)
+
+@app.route("/electionresults/<state>/<year>")
+def StateYearResults(state, year):
+    ''' Query the database for fighter aircraft and return the results as a JSON. '''
+
+    # Open a session, run the query, and then close the session again
+    session = Session(engine)
+    results = session.query(table.Year, table.State, table.Party, table.County, table.Candidate_Votes).filter(table.State==state).filter(table.Year==year)
+    session.close()
+
+    # Create a list of dictionaries, with each dictionary containing one row from the query. 
+    all_results = []
+    for year, state, party, county, candidate_votes in results:
+        dict = {}
+        dict["year"] = year
+        dict["state"] = state
+        dict["party"] = party
+        dict["county"] = county
+        dict["votes"] = candidate_votes
+        all_results.append(dict)
+
+    # Return the jsonified result. 
+    return jsonify(all_results)
 # This statement is required for Flask to do its job. 
 # Think of it as chocolate cake recipe. 
 if __name__ == '__main__':
