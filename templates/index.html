@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
      <!-- Import some CSS, just to show how it's done. -->
-    <link rel="stylesheet" type="text/css" href="static/css/style.css"></link>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
     <title>Elections</title>
     <!-- Import the Plotly library. Note that this has to 
          happen before we importa any code that uses Plotly. -->
@@ -21,48 +21,40 @@
 </head>
 
 <body>
+      <header class="header">
+      <h2 class="text-center">To use this dashboard, select the election year in the map and then click on a state.</h2>
+    </header>
     <div class="container-fluid">
       <!-- The div for our map -->
       <div class="row">
         <div class="col-sm-6 col-md-6">
           <div id="map"></div>
-            <div class="info"></div>
-            <div id="range-slider-1"></div>
-            <div class="leaflet-top leaflet-right"></div>
-            <div class="info leaflet-control"></div>
         </div>
-
-        <div class="col-md-6">
-          <h2 class="text-center">To use this dashboard, select the election year in the map and then click on a state.</h2>
-            <!-- <div class="about">
-            <a href="/about">Project Team Information</a> -->
+         <!-- placeholders for text listeners -->
           </div>
           <div class="text1 text-center"></div>
           <div class="text2 text-center"></div>
         </div>
-       </div>
      <!-- Test page text div -->
-      <div class="col-md-6">
+      <!-- <div class="col-md-6">
     <h4 class="text-center">This is our test page</h4>
-    </div>
+    </div> -->
 
     <!-- The div for line chart -->
     <div class="row">
       <div class="col-md-6">
-        <div id="line">
-          <div id="chart"></div>
+        <div id="line"></div>
         </div>  
       </div>
       <div class="col-md-6">
-        <div id="tbd">
           <div id="charttbd"></div>
         </div>
-      </div>
-    </div>
-  </div>  
+      
+    <!-- Insert API key-->
+    <script src="../static/js/config.js"></script>
 
     <!-- Import the main JavaScript code. -->
-    <script type="text/javascript" src="static/js/main.js"></script>
+    <script src="static/js/main.js"></script>
 
 </body>
 
