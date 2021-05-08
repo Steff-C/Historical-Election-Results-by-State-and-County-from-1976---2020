@@ -7,6 +7,7 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
+from sqlalchemy import func
 
 #Parameters from Config.py
 from config import password 
@@ -23,7 +24,7 @@ base.prepare(engine, reflect=True)
 
 # Choose the table we wish to use
 table = base.classes.election_data
-
+statetable = base.classes.state_election_data
 # Instantiate the Flask application. (Chocolate cake recipe.)
 # This statement is required for Flask to do its job. 
 app = Flask(__name__)
@@ -91,18 +92,43 @@ def StateYearResults(state, year):
 
     # Open a session, run the query, and then close the session again
     session = Session(engine)
-    results = session.query(table.Year, table.State, table.Party, table.County, table.Candidate_Votes).filter(table.State==state).filter(table.Year==year)
+    results = session.query(table.Year, table.State, table.Party, table.County, table.Candidate_Votes, table.FIPS).filter(table.State==state).filter(table.Year==year)
     session.close()
 
     # Create a list of dictionaries, with each dictionary containing one row from the query. 
     all_results = []
-    for year, state, party, county, candidate_votes in results:
+    for year, state, party, county, candidate_votes, FIPS in results:
         dict = {}
         dict["year"] = year
         dict["state"] = state
         dict["party"] = party
         dict["county"] = county
         dict["votes"] = candidate_votes
+        dict["FIPS"] = FIPS
+        all_results.append(dict)
+
+    # Return the jsonified result. 
+    return jsonify(all_results)
+
+@app.route("/stateelectionresults/<year>")
+def CountryYearResults(year):
+    ''' Query the database for fighter aircraft and return the results as a JSON. '''
+
+    # Open a session, run the query, and then close the session again
+    session = Session(engine)
+    results = session.query(statetable.Year, statetable.State, statetable.Party, statetable.Candidate, statetable.Candidate_Votes, statetable.Total_Votes_by_State).filter(statetable.Year==year)
+    session.close()
+
+    # Create a list of dictionaries, with each dictionary containing one row from the query. 
+    all_results = []
+    for year, state, party, candidate, candidate_votes, state_votes in results:
+        dict = {}
+        dict["year"] = year
+        dict["state"] = state
+        dict["party"] = party
+        dict["candidate"] = candidate
+        dict["votes"] = candidate_votes
+        dict["percentage"] = (candidate_votes/state_votes)
         all_results.append(dict)
 
     # Return the jsonified result. 
