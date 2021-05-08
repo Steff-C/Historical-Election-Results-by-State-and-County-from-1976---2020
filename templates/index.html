@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
      <!-- Import some CSS, just to show how it's done. -->
-    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
     <title>Elections</title>
     <!-- Import the Plotly library. Note that this has to 
          happen before we importa any code that uses Plotly. -->
@@ -17,19 +19,26 @@
     <!-- Import the D3 library. Note that this has to happen 
     before we import any code that uses D3. -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin="" />
-    
+   
 </head>
 
 <body>
+
+      <header class="header">
+      <h2 class="text-center">To use this dashboard, select the election year in the map and then click on a state.</h2>
+    </header>
+
     <div class="container-fluid">
       <!-- The div for our map -->
       <div class="row">
         <div class="col-sm-6 col-md-6">
           <div id="map"></div>
+
           <select id="selDataset">
             <option value="2000">2000</option>
             <option value="2004">2004</option>
@@ -83,6 +92,7 @@
     <script type="text/javascript" src="/static/js/us-states.js"></script> 
     <script type="text/javascript" src="/static/js/us-counties.js"></script> 
     <script type="text/javascript" src="/static/js/main.js"></script>
+
 
 </body>
 
