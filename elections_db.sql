@@ -4,6 +4,7 @@ Create table election_data (
     "State" VARCHAR   NOT NULL,
     "State_Abbr" VARCHAR   NOT NULL,
     "County" VARCHAR   NOT NULL,
+	"FIPS" INT NOT NULL,
     "Office" VARCHAR   NOT NULL,
     "Candidate" VARCHAR   NOT NULL,
 	"Party" VARCHAR NOT NULL,
@@ -12,7 +13,7 @@ Create table election_data (
 );
 
 select * from election_data;
--- drop table election_data;
+--drop table election_data;
 
 Create table state_election_data (
 	index int primary key,
