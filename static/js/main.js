@@ -1,6 +1,7 @@
 console.log("Loaded main.js");
 function init(){
     makecountrymap(2000);
+    htmlchosenstate="";
 }
 function makecountrymap(year){
     var queryUrl = `/stateelectionresults/${year}`;
@@ -12,7 +13,6 @@ function makecountrymap(year){
             statesData.features[i].properties['RepublicanPercent']=data.filter(d =>  (d.state === statesData.features[i].properties.name.toUpperCase() && d.party === "REPUBLICAN"))[0].percentage;
             statesData.features[i].properties['RepublicanCandidate']=data.filter(d =>  (d.state === statesData.features[i].properties.name.toUpperCase() && d.party === "REPUBLICAN"))[0].candidate;
         }
-        console.log(statesData);
         function getColor(d) {
             return d > 0.15 ? '#001666' :
                 d > 0.1  ? '#244999' :
@@ -23,10 +23,6 @@ function makecountrymap(year){
                 d > -0.15   ? '#D22532' :
                             '#9F0000';
         }
-        // var geojson;
-        // function zoomToFeature(e) {
-        //     map.fitBounds(e.target.getBounds());
-        // }
         function onEachFeature(feature, layer) {
             layer.on({
                 mouseover: highlightFeature,
@@ -63,7 +59,8 @@ function makecountrymap(year){
         if (L.DomUtil.get('map') !== undefined) { 
             L.DomUtil.get('map')._leaflet_id = null; 
          }
-        var map = L.map('map').setView([37.8, -96], 4);
+        var map = L.map('map', {zoomControl: false}).setView([37.8, -96], 3);
+        var zoom_bar = new L.Control.ZoomBar({position: 'topleft'}).addTo(map);
         graymap.addTo(map)
         function style(feature) {
             repubpercent=data.filter(d =>  (d.state === feature.properties.name.toUpperCase() && d.party === "REPUBLICAN"))[0].percentage;
@@ -102,7 +99,7 @@ function makecountrymap(year){
                 democratpercent = Math.round(props.DemocratPercent*10000)/100;
                 otherpercent = Math.round((100-republicanpercent-democratpercent)*100)/100;
             }
-            info._div.innerHTML = '<h4>' + year + ' Presidential Election</h4>' +  (props ?
+            info._div.innerHTML = '<h6>' + year + ' Presidential Election</h6>' +  (props ?
                 '<b>' + props.name + '</b><br />' + '(D) ' + props.DemocratCandidate + ': ' + democratpercent + '%' +
                 '<br />' + '(R) ' + props.RepublicanCandidate + ': ' + republicanpercent + '%' +
                 '<br />' + 'Other: ' + otherpercent + '%'
@@ -121,7 +118,7 @@ function makecountrymap(year){
             for (var i = 0; i < grades.length; i++) {
                 div.innerHTML +=
                     '<i style="background:' + getColor(grades[i]+0.01) + '"></i> ' +
-                    gradeslabels[i] + (gradeslabels[i + 1] ? '<br>' : '+');
+                    gradeslabels[i] + (gradeslabels[i + 1] ? '<br>' : '');
             }
 
             return div;
@@ -141,29 +138,38 @@ init();
 d3.selectAll("#selDataset").on("change", updateCountryMap);
 function createstatemap(stateclicked) {
     statename = stateclicked.target.feature.properties.name;
-    //Make a div with value of statename
+    mapbounds=stateclicked.target.getBounds();
     var dropdownMenu = d3.select("#selDataset");
-    // Assign the value of the dropdown menu option to a variable
     var year = dropdownMenu.property("value");
     var queryUrl = `/electionresults/${statename}/${year}`
     d3.json(queryUrl).then(function(data) {
-        console.log(data);
         totalcounties = {};
         fipsarray=[];
         for (i=0; i<data.length; i++)
         {
-            if (typeof totalcounties[data[i].county] === 'undefined'){
-                totalcounties[data[i].county] = {}
-                totalcounties[data[i].county]["TotalVotes"] = 0;
-                totalcounties[data[i].county]["FIPS"]=data[i].FIPS;
+            if (typeof totalcounties[data[i].FIPS] === 'undefined'){
+                totalcounties[data[i].FIPS] = {}
+                totalcounties[data[i].FIPS]["TotalVotes"] = 0;
+                totalcounties[data[i].FIPS]["County"]=data[i].county;
                 fipsarray.push(data[i].FIPS)
             }
-            totalcounties[data[i].county][data[i].party]=data[i].votes;
-            totalcounties[data[i].county]["TotalVotes"] += data[i].votes;
+            totalcounties[data[i].FIPS][data[i].party] = {};
+            totalcounties[data[i].FIPS][data[i].party]["Votes"]=data[i].votes;
+            totalcounties[data[i].FIPS][data[i].party]["Candidate"]=data[i].candidate;
+            totalcounties[data[i].FIPS]["TotalVotes"] += data[i].votes;
         }
-        console.log(totalcounties);
-        console.log(fipsarray);
-        countygeojsons=countiesdata.filter(d => fipsarray.contains(d.features.properties.GEOID));
+        copyofcountiesdata={...countiesdata};
+        copyofcountiesdata.features=countiesdata.features.filter(d => fipsarray.includes(d.properties.GEOID));
+
+        for (i=0; i<copyofcountiesdata.features.length; i++)
+        {
+            countyid=copyofcountiesdata.features[i].properties.GEOID;
+            copyofcountiesdata.features[i].properties['DemocratPercent']=totalcounties[countyid].democrat.Votes/totalcounties[countyid].TotalVotes;
+            copyofcountiesdata.features[i].properties['DemocratCandidate']=totalcounties[countyid].democrat.Candidate;
+            copyofcountiesdata.features[i].properties['RepublicanPercent']=totalcounties[countyid].republican.Votes/totalcounties[countyid].TotalVotes;
+            copyofcountiesdata.features[i].properties['RepublicanCandidate']=totalcounties[countyid].republican.Candidate;
+        }
+
         function getColor(d) {
             return d > 0.15 ? '#001666' :
                 d > 0.1  ? '#244999' :
@@ -209,14 +215,14 @@ function createstatemap(stateclicked) {
         if (L.DomUtil.get('countymap') !== undefined) { 
             L.DomUtil.get('countymap')._leaflet_id = null; 
          }
-        var map = L.map('countymap').setView([37.8, -96], 4);
-        graymap.addTo(map)
+        var countymap = L.map('countymap').setView([37.8, -96], 4);
+        countymap.fitBounds(mapbounds);
+        graymap.addTo(countymap)
         function style(feature) {
-            //repubpercent=feature.republican/feature.TotalVotes
-            //dempercent=feature.democrat/feature.TotalVotes
+            repubpercent=feature.properties.RepublicanPercent;
+            dempercent=feature.properties.DemocratPercent;
             return {
-                //fillColor: getColor(dempercent-repubpercent),
-                fillColor: 'blue',
+                fillColor: getColor(dempercent-repubpercent),
                 weight: 2,
                 opacity: 1,
                 color: 'white',
@@ -224,11 +230,18 @@ function createstatemap(stateclicked) {
                 fillOpacity: 0.7
             };
         }
-        var geojson=L.geoJson(countygeojsons, {style: style, onEachFeature: onEachFeature}).addTo(map);
+        var geojson=L.geoJson(copyofcountiesdata, {style: style, onEachFeature: onEachFeature, draggable: true}).addTo(countymap);
         var info = L.control();
 
         info.onAdd = function (map) {
-            info._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            function removeElementsByClass(infoclassName){
+                const elements = document.getElementsByClassName(infoclassName);
+                while(elements.length > 0){
+                    elements[0].parentNode.removeChild(elements[0]);
+                }
+            }
+            removeElementsByClass('countyinfo');
+            info._div = L.DomUtil.create('div', 'countyinfo'); // create a div with a class "info"
             info.update();
             return info._div;
         };
@@ -241,13 +254,13 @@ function createstatemap(stateclicked) {
                 democratpercent = Math.round(props.DemocratPercent*10000)/100;
                 otherpercent = Math.round((100-republicanpercent-democratpercent)*100)/100;
             }
-            info._div.innerHTML = '<h4>' + year + ' Presidential Election</h4>' +  (props ?
-                '<b>' + props.name + '</b><br />' + '(D) ' + props.DemocratCandidate + ': ' + democratpercent + '%' +
+            info._div.innerHTML = '<h6>' + year + ' Presidential Election</h6>' +  (props ?
+                '<b>' + props.COUNTY_STATE_CODE + '</b><br />' + '(D) ' + props.DemocratCandidate + ': ' + democratpercent + '%' +
                 '<br />' + '(R) ' + props.RepublicanCandidate + ': ' + republicanpercent + '%' +
                 '<br />' + 'Other: ' + otherpercent + '%'
-                : 'Hover over a state');
+                : 'Hover over a county');
         };
-        info.addTo(map);
+        info.addTo(countymap);
         var legend = L.control({position: 'bottomleft'});
 
         legend.onAdd = function (map) {
@@ -260,12 +273,13 @@ function createstatemap(stateclicked) {
             for (var i = 0; i < grades.length; i++) {
                 div.innerHTML +=
                     '<i style="background:' + getColor(grades[i]+0.01) + '"></i> ' +
-                    gradeslabels[i] + (gradeslabels[i + 1] ? '<br>' : '+');
+                    gradeslabels[i] + (gradeslabels[i + 1] ? '<br>' : '');
             }
 
             return div;
         };
 
-        legend.addTo(map);
+        legend.addTo(countymap);
+        //countymap.dragging.enable();
     });
 }
