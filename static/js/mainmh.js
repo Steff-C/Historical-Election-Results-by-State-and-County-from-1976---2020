@@ -65,8 +65,8 @@ function buildLineChart() {
             },
         ], {
             title:'Line and Scatter Plot',
-            height: 500,
-            width: 925
+            height: 300,
+            width: 605
         });
 
         // Plotly.newPlot('myDiv', data, layout);
