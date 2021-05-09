@@ -92,17 +92,18 @@ def StateYearResults(state, year):
 
     # Open a session, run the query, and then close the session again
     session = Session(engine)
-    results = session.query(table.Year, table.State, table.Party, table.County, table.Candidate_Votes, table.FIPS).filter(table.State==state).filter(table.Year==year)
+    results = session.query(table.Year, table.State, table.Party, table.County, table.Candidate, table.Candidate_Votes, table.FIPS).filter(table.State==state).filter(table.Year==year)
     session.close()
 
     # Create a list of dictionaries, with each dictionary containing one row from the query. 
     all_results = []
-    for year, state, party, county, candidate_votes, FIPS in results:
+    for year, state, party, county, candidate, candidate_votes, FIPS in results:
         dict = {}
         dict["year"] = year
         dict["state"] = state
         dict["party"] = party
         dict["county"] = county
+        dict["candidate"] = candidate
         dict["votes"] = candidate_votes
         dict["FIPS"] = FIPS
         all_results.append(dict)
