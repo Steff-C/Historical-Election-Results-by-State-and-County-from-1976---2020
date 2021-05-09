@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+     <!-- Import some CSS, just to show how it's done. -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+
+    <title>About</title>
+    <!-- Import the Plotly library. Note that this has to 
+         happen before we importa any code that uses Plotly. -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Import the D3 library. Note that this has to happen 
+    before we import any code that uses D3. -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin="" />
+   
+</head>
+
+<body>
+ <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-sm navbar-light">
+       <a class="navbar-nav mr-auto"></a>
+             <a class="nav-link" href="/index.html">Dashboard</a>
+  </nav>
+
+
+<!-- Stop Navagation-->  
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display- text-center" >WELCOME</h1>
+      <p class="lead"></p>
+      <p class="lead">Our mission was to provide an interactive dashboard visualiznig US Presidential Elections from 2000 - 2016.  
+        We have visualized results for each state and county, indicating the winning party by color for the participating territories.  
+        When you hoover over a state, the results for each party are displayed along with the details of their win or loss by percentage.  
+        When you click on a state, you will be provided a brief summary along with a detailed view of the reults for each county.  The data
+        was pulled from Harvard's Dataverse Repository and the Exploratory websites.</p>  
+
+
+    </div>
+  </div>
+
+<div id="footer">
+  <p><a href="https://github.com/Steff-C/Historical-Election-Results-by-State-and-County-from-1976-2020" target="_blank">Visit our Repository on Github</a></p>
+</div>
+
+<!-- Import the main JavaScript code. -->
+<script type="text/javascript" src="/static/js/config.js"></script>
+<script type="text/javascript" src="/static/js/logic.js"></script> 
+<script type="text/javascript" src="/static/js/us-states.js"></script> 
+<script type="text/javascript" src="/static/js/us-counties.js"></script> 
+<script type="text/javascript" src="/static/js/main.js"></script>
+<script type="text/javascript" src="/static/js/mainmh.js"></script>
+
+</body>
+</html>
