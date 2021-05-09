@@ -20,10 +20,10 @@ function countVotes(data) {
 function buildLineChart() {
 
     d3.json("http://127.0.0.1:5000/electionresults").then(data => {
-        console.log(data);
+        //console.log(data);
         let niceData = countVotes(data);
 
-        console.log(niceData);
+        //console.log(niceData);
 
         let graphData = Object.keys(niceData).map(year => {
             let otherCount = 0;
@@ -42,7 +42,7 @@ function buildLineChart() {
             };
         })
 
-        console.log(graphData);
+        //console.log(graphData);
 
         Plotly.newPlot('chart', [
             {
