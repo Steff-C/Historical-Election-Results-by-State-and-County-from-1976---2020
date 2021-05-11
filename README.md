@@ -9,13 +9,11 @@
 - Stephanie Core
 
 
-**Created with:**
+
+**Tools used:**
 - Flask
 - Python
 - pgAdmin 4
-
-
-**Additional tools used:**
 - ETL 
 - Jupyter Notebook
 - HTML
@@ -28,7 +26,7 @@
 - CSS 
 - Bootstrap
 
-**Deployment:** Local Server.  Will set up on Heroku in future.
+**Deployment:** Local Server.  Will set up on elephantSQL in the future.
 
 ## Content:
 -------------------
