@@ -75,7 +75,7 @@ function buildLineChart() {
 
         var config = { responsive: true }
 
-       Plotly.newPlot('chart', [
+        Plotly.newPlot('chart', [
             {
                 x: graphData.map(x => x.year),
                 y: graphData.map(x => x.republican),
@@ -111,5 +111,6 @@ function buildLineChart() {
             },
         ], layout, config);
     }); 
-}  
+}
 buildLineChart();
+
