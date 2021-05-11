@@ -87,5 +87,4 @@ https://git@github.com:Steff-C/Historical-Election-Results-by-State-and-County-f
 ### Launch Dashboard
 1. Right-click on the cloned repo folder ``Historical-Election-Results-by-State-and-County-from-1976-2020`` and then open a Git Bash (Windows) or Terminal (Mac)
 2. Run ``source activate PythonData``
-3. Run ``python app.py``
-4. copy the http://000.0.0:000, paste into your chrome browser and have fun!
+3. copy the http://000.0.0:000, paste into your chrome browser and have fun!
