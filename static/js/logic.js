@@ -9,7 +9,7 @@
 // “Candidate XXX beatCandidate YYY in the electoral college by a scoreof AAA - BBB or by %.”
 
 
-function wrightstatetext(data) {
+function writestatetext(data) {
     if (!(data && data.length > 0)) {
         throw "No data passed into write state text";
     }
@@ -37,6 +37,6 @@ function wrightstatetext(data) {
     document.getElementById("yearstate").innerHTML = text1;
     document.getElementById("prctwonloss").innerHTML = text2;
 
-    d3.select(".text1").text(info);
-    d3.select(".text2").text(approximateInfo);
+    //d3.select(".text1").text(info);
+    //d3.select(".text2").text(approximateInfo);
 }
