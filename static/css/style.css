@@ -7,6 +7,7 @@ body {
 html {
   height: 100%;
 }
+
 .text1 {font-family: 'Lucida Sans'; font-size: smaller;
 }
 .text2 { font-family:'Lucida Sans'; text-transform: capitalize;
@@ -23,18 +24,6 @@ p {
   font-family: 'Lucida Sans';
 }
 .info {
-  padding: 6px 8px;
-  font: 10px/12px Arial, Helvetica, sans-serif;
-  background: white;
-  background: rgba(255,255,255,0.8);
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  border-radius: 5px;
-}
-.info h6 {
-  margin: 0 0 5px;
-  color: #777;
-}
-.countyinfo {
   padding: 6px 8px;
   font: 10px/12px Arial, Helvetica, sans-serif;
   background: white;
