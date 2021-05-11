@@ -77,19 +77,19 @@ function makecountrymap(year){
         var geojson=L.geoJson(statesData, {style: style, onEachFeature: onEachFeature}).addTo(map);
         var info = L.control();
 
-        info.onAdd = function (map) {
-            //I received this code from stackoverflow which can remove an element from our HTML page
-            function removeElementsByClass(infoclassName){
-                const elements = document.getElementsByClassName(infoclassName);
-                while(elements.length > 0){
-                    elements[0].parentNode.removeChild(elements[0]);
-                }
-            }
-            removeElementsByClass('info');
-            info._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-            info.update();
-            return info._div;
-        };
+info.onAdd = function (map) {
+//I received this code from stackoverflow which can remove an element from our HTML page
+function removeElementsByClass(infoclassName){
+const elements = document.getElementsByClassName(infoclassName);
+while(elements.length > 0){
+elements[0].parentNode.removeChild(elements[0]);
+}
+}
+removeElementsByClass('info');
+info._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+info.update();
+return info._div;
+};
 
         //method that we will use to update the control based on feature properties passed
         info.update = function (props) {
@@ -121,19 +121,19 @@ function makecountrymap(year){
                     gradeslabels[i] + (gradeslabels[i + 1] ? '<br>' : '');
             }
 
-            return div;
-        };
+return div;
+};
 
-        legend.addTo(map);
-    });
+legend.addTo(map);
+});
 }
 function updateCountryMap() {
-    // Use D3 to select the dropdown menu
-    var dropdownMenu = d3.select("#selDataset");
-    // Assign the value of the dropdown menu option to a variable
-    var dataset = dropdownMenu.property("value");
-    makecountrymap(dataset);
-  }
+// Use D3 to select the dropdown menu
+var dropdownMenu = d3.select("#selDataset");
+// Assign the value of the dropdown menu option to a variable
+var dataset = dropdownMenu.property("value");
+makecountrymap(dataset);
+}
 init();
 d3.selectAll("#selDataset").on("change", updateCountryMap);
 function createstatemap(stateclicked) {
@@ -143,7 +143,8 @@ function createstatemap(stateclicked) {
     var year = dropdownMenu.property("value");
     var queryUrl = `/electionresults/${statename}/${year}`
     d3.json(queryUrl).then(function(data) {
-        totalcounties = {};
+      writestatetext(data);  
+      totalcounties = {};
         fipsarray=[];
         for (i=0; i<data.length; i++)
         {
@@ -276,8 +277,8 @@ function createstatemap(stateclicked) {
                     gradeslabels[i] + (gradeslabels[i + 1] ? '<br>' : '');
             }
 
-            return div;
-        };
+return div;
+};
 
         legend.addTo(countymap);
         //countymap.dragging.enable();
