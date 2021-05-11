@@ -39,6 +39,13 @@ def IndexRoute():
     webpage = render_template("index.html")
     return webpage
 
+@app.route("/about.html")
+def AboutRoute():
+    ''' This function runs when the browser loads the index route. 
+        Note that the html file must be located in a folder called templates. '''
+
+    webpage = render_template("about.html")
+    return webpage
 
 @app.route("/electionresults")
 def TotalResults():
@@ -92,17 +99,18 @@ def StateYearResults(state, year):
 
     # Open a session, run the query, and then close the session again
     session = Session(engine)
-    results = session.query(table.Year, table.State, table.Party, table.County, table.Candidate_Votes, table.FIPS).filter(table.State==state).filter(table.Year==year)
+    results = session.query(table.Year, table.State, table.Party, table.County, table.Candidate, table.Candidate_Votes, table.FIPS).filter(table.State==state).filter(table.Year==year)
     session.close()
 
     # Create a list of dictionaries, with each dictionary containing one row from the query. 
     all_results = []
-    for year, state, party, county, candidate_votes, FIPS in results:
+    for year, state, party, county, candidate, candidate_votes, FIPS in results:
         dict = {}
         dict["year"] = year
         dict["state"] = state
         dict["party"] = party
         dict["county"] = county
+        dict["candidate"] = candidate
         dict["votes"] = candidate_votes
         dict["FIPS"] = FIPS
         all_results.append(dict)
