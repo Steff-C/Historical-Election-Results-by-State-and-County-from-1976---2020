@@ -143,8 +143,8 @@ function createstatemap(stateclicked) {
     var year = dropdownMenu.property("value");
     var queryUrl = `/electionresults/${statename}/${year}`
     d3.json(queryUrl).then(function(data) {
-      writestatetext(data);  
-      totalcounties = {};
+        writestatetext(data);
+        totalcounties = {};
         fipsarray=[];
         for (i=0; i<data.length; i++)
         {
